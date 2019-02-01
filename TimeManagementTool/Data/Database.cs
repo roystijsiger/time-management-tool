@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using TimeManagementTool.Models;
 
 namespace TimeManagementTool.Data
 {
@@ -45,6 +46,43 @@ namespace TimeManagementTool.Data
             {
                 return false;
             }
+        }
+
+        public List<Category> GetCategories()
+        {
+            string sQuery = "SELECT * FROM Category";
+
+            List<Category> categories = new List<Category>();
+            try
+            {
+                //example: https://www.codeproject.com/Articles/837599/Using-Csharp-to-Connect-to-and-Query-from-a-SQL-Da
+                var command = new SqlCommand(sQuery, this.connection);
+                SqlDataReader sqlDataReader = command.ExecuteReader(){
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                           
+                            Category c = new Category();
+                            c.Id = sqlDataReader.GetInt32(sqlDataReader.GetOrdinal("Id"));
+                            c.Title = sqlDataReader.GetString(sqlDataReader.GetOrdinal("Title"));
+
+                            categories.Add(c);
+                            
+                        }
+
+                    }
+                }
+      
+                command.ExecuteNonQuery();
+
+            }
+            catch(Exception e)
+            {
+                
+            }
+            return categories;
+
         }
     }
 }
