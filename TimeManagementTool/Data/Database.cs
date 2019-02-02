@@ -15,7 +15,7 @@ namespace TimeManagementTool.Data
 
         public Database()
         {
-            string sConnection = "Data Source=process-time-management.database.windows.net; Initial Catalog=process_time_management; User ID=process-time-management; Password=Zxcasdqwe123";
+            string sConnection = "Data Source=**********; Initial Catalog=***********; User ID=*********; Password=********";
 
             this.connection = new SqlConnection(sConnection);
 
