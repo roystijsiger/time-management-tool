@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TimeManagementTool.Models
 {
-    class Category
+    public class Category
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -16,6 +16,11 @@ namespace TimeManagementTool.Models
             this.Id = id;
             this.Title = title;
 
+        }
+        
+        public Category(string title)
+        {
+            this.Title = title;
         }
 
         public Category()

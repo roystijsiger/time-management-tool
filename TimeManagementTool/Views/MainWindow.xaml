@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeManagementTool"
         mc:Ignorable="d"
-        Title="MainWindow" Height="715.5" Width="960">
-    <Grid>
+        Title="MainWindow" Height="715.5" Width="1134">
+    <Grid Margin="0,0,68,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="481*"/>
+            <ColumnDefinition Width="330*"/>
+            <ColumnDefinition Width="54*"/>
+            <ColumnDefinition Width="240*"/>
         </Grid.ColumnDefinitions>
         <ListView Name="ProcessList" HorizontalAlignment="Left" Height="525" Margin="42,126,0,0" VerticalAlignment="Top" Width="307">
             <ListView.View>
@@ -20,8 +23,18 @@
             </ListView.View>
 
         </ListView>
-        <Button Name="addProcessButton" Content="Add" Margin="413,126,367,516"/>
+        <Button Name="addProcessButton" Content="Add" Margin="404,126,82,516" Grid.ColumnSpan="2"/>
         <TextBox Name="txt_category_title" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="307" Margin="42,10,0,0"/>
         <Button Name="addCategoryButton" Content="Add category" HorizontalAlignment="Left" Margin="369,10,0,0" VerticalAlignment="Top" Width="80" Height="30" RenderTransformOrigin="-0.047,0.367"/>
+        <ListView Name="CategoryList" HorizontalAlignment="Left" Height="525" Margin="298,126,-24,0" VerticalAlignment="Top" Width="324" Grid.ColumnSpan="3" Grid.Column="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="60" Header="Id" DisplayMemberBinding="{Binding Id}"/>
+
+                    <GridViewColumn Width="250" Header="Category" DisplayMemberBinding="{Binding Title}"/>
+                </GridView>
+            </ListView.View>
+
+        </ListView>
     </Grid>
 </Window>
