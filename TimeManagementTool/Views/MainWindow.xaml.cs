@@ -25,19 +25,22 @@ namespace TimeManagementTool
     public partial class MainWindow : Window
     {
         private CategoryController categoryController;
+        private ProcessController processController;
+
         public MainWindow()
         {
             InitializeComponent();
-
-            //set all listeners
-            SetListeners();
+            
 
             //initialize controller
             categoryController = new CategoryController(this);
-            categoryController.UpdateCategories();
-            getProcesses(); 
+            categoryController.GetCategories();
+
+            processController = new ProcessController(this);
+            processController.GetRunningProcesses();
         }
-    
+        
+        //Display categories in the listview
         public void ShowCategories(List<Category> categories)
         {
             foreach (Category c in categories)
@@ -47,76 +50,71 @@ namespace TimeManagementTool
 
         }
 
+        //add single category to the list
         public void UpdateCategories(Category c)
         {
             CategoryList.Items.Add(c);
         }
         
+        //display error
         public void ShowError(string Error)
         {
             MessageBox.Show(Error);
         }
 
-
-        private List<Category> getCategories()
+        //display proccesses by selected category
+        public void ShowProcessesByCategory(List<ProcessCategory> categoryProcesses) 
         {
-            List<Category> categories = new List<Category>();
-            
-            using(TimeManagementContext tmc = new TimeManagementContext())
+            ProcessCategoryList.Items.Clear();
+            foreach(ProcessCategory pc in categoryProcesses)
             {
-                categories = tmc.Categories.ToList();
+                ProcessCategoryList.Items.Add(pc); 
             }
-            return categories;
         }
 
-        private Process[] getProcesses()
+        //add a single process to selected category list
+        public void AddSingleProcessToProcessByCategoryList(ProcessCategory categoryProcess)
         {
-            Process[] processlist = Process.GetProcesses();
-            foreach (Process theprocess in processlist)
+            ProcessCategoryList.Items.Add(categoryProcess);
+        }
+
+        //display processes in the lsitview
+        public void ShowProcesses(Process[] processList)
+        {
+          
+            foreach (Process process in processList)
             {
-                Console.WriteLine("Process: {0} ID: {1}", theprocess.ProcessName, theprocess.Id);
-                ProcessList.Items.Add(theprocess);
+                ProcessList.Items.Add(process);
             }
-            
-
-            return processlist; 
-
-
         }
+        
 
-        private void SetListeners()
+        //if the selected category is changed
+        private void CategoryList_selectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            addProcessButton.Click += AddProcess_click;
-            addCategoryButton.Click += AddCategory_click;
+            Category c = (Category)args.AddedItems[0];
+
+
+            processController.GetProccessesByCategory(c);
+
         }
 
+        //if add process is clicked this event is triggered.
         private void AddProcess_click(object sender, RoutedEventArgs e)
         {
-            List<Process> selectedProcess = ProcessList.SelectedItems.OfType<Process>().ToList();
+            List<Process> selectedProcesses = ProcessList.SelectedItems.OfType<Process>().ToList();
+            List<Category> selectedCategories = CategoryList.SelectedItems.OfType<Category>().ToList();
 
-
-            var processName = selectedProcess[0].ProcessName;
-
-            MessageBox.Show(processName);
+            var processName = selectedProcesses[0].ProcessName;
+            processController.AddProcessToCategory(selectedCategories[0].Id, selectedProcesses[0].Id, selectedProcesses[0].ProcessName);
         }
+
+        //if add category is clicked this event is triggered
 
         private void AddCategory_click(object sender, RoutedEventArgs e)
         {
-            using(TimeManagementContext tmc = new TimeManagementContext())
-            {
-                Category c = new Category();
-                c.Title = txt_category_title.Text;
-                try { 
-                    tmc.Categories.Add(c);
-                    tmc.SaveChanges();
-                    CategoryList.Items.Add(c);
-                    MessageBox.Show("Successfully added category");
-                }
-                catch(Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
+            string title = txt_category_title.Text;
+            categoryController.AddCategory(title);
         }
     }
 }

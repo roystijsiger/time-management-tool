@@ -15,14 +15,14 @@ namespace TimeManagementTool.Controllers
         private TimeManagementContext _context;
 
         public CategoryController(MainWindow main){
-            this._view = main;
-            this._context = new TimeManagementContext();
+            _view = main;
+            _context = new TimeManagementContext();
         }
         
-        public void UpdateCategories()
+        public void GetCategories()
         {
             List<Category> categories = this._context.Categories.ToList();
-            this._view.ShowCategories(categories);
+            _view.ShowCategories(categories);
         }
 
         public void AddCategory(string title)
@@ -30,12 +30,13 @@ namespace TimeManagementTool.Controllers
             Category category = new Category(title);
             try
             {
-                this._context.Categories.Add(category);
-                this._view.UpdateCategories(category);
+                _context.Categories.Add(category);
+                _context.SaveChanges();
+                _view.UpdateCategories(category);
             }
             catch (Exception e)
             {
-                this._view.ShowError(e.Message);
+                _view.ShowError(e.Message);
             }
             
         }

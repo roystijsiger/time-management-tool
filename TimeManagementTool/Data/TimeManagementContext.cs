@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,5 +17,6 @@ namespace TimeManagementTool.Data
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ProcessCategory> Processes { get; set; }
     }
 }

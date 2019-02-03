@@ -5,33 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeManagementTool"
         mc:Ignorable="d"
-        Title="MainWindow" Height="715.5" Width="1134">
-    <Grid Margin="0,0,68,0">
+        Title="MainWindow" Height="1090.5" Width="1773">
+    <Grid Margin="0,0,68,33">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="481*"/>
-            <ColumnDefinition Width="330*"/>
-            <ColumnDefinition Width="54*"/>
-            <ColumnDefinition Width="240*"/>
+            <ColumnDefinition Width="400*"/>
+            <ColumnDefinition Width="400*"/>
+            <ColumnDefinition Width="400*"/>
         </Grid.ColumnDefinitions>
-        <ListView Name="ProcessList" HorizontalAlignment="Left" Height="525" Margin="42,126,0,0" VerticalAlignment="Top" Width="307">
+        <ListView Name="ProcessList" HorizontalAlignment="Left" Height="825" Margin="42,126,0,0" VerticalAlignment="Top" Width="500" SelectionMode="Single">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="60" Header="Id" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Width="100" Header="Id" DisplayMemberBinding="{Binding Id}"/>
 
-                    <GridViewColumn Width="250" Header="Process" DisplayMemberBinding="{Binding ProcessName}"/>
+                    <GridViewColumn Width="400" Header="Process" DisplayMemberBinding="{Binding ProcessName}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Width="200" Height="50" Name="addProcessButton" Content="->" Grid.Column="1" Click="AddProcess_click"/>
+        <TextBox Name="txt_category_title" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="307" Margin="42,10,0,0"/>
+        <Button Name="addCategoryButton" Content="Add category" HorizontalAlignment="Left" Margin="369,10,0,0" VerticalAlignment="Top" Width="80" Height="30" Click="AddCategory_click"/>
+        <ListView Name="CategoryList" HorizontalAlignment="Left" Height="371" Margin="33,126,0,0" VerticalAlignment="Top" Width="500" Grid.Column="2" SelectionMode="Single" SelectionChanged="CategoryList_selectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100" Header="Id" DisplayMemberBinding="{Binding Id}"/>
+
+                    <GridViewColumn Width="400" Header="Category" DisplayMemberBinding="{Binding Title}"/>
                 </GridView>
             </ListView.View>
 
         </ListView>
-        <Button Name="addProcessButton" Content="Add" Margin="404,126,82,516" Grid.ColumnSpan="2"/>
-        <TextBox Name="txt_category_title" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="307" Margin="42,10,0,0"/>
-        <Button Name="addCategoryButton" Content="Add category" HorizontalAlignment="Left" Margin="369,10,0,0" VerticalAlignment="Top" Width="80" Height="30" RenderTransformOrigin="-0.047,0.367"/>
-        <ListView Name="CategoryList" HorizontalAlignment="Left" Height="525" Margin="298,126,-24,0" VerticalAlignment="Top" Width="324" Grid.ColumnSpan="3" Grid.Column="1">
+        <ListView Name="ProcessCategoryList" HorizontalAlignment="Left" Height="371" Margin="33,580,0,0" VerticalAlignment="Top" Width="500" Grid.Column="2" SelectionMode="Single">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="60" Header="Id" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Width="100" Header="Id" DisplayMemberBinding="{Binding Id}"/>
 
-                    <GridViewColumn Width="250" Header="Category" DisplayMemberBinding="{Binding Title}"/>
+                    <GridViewColumn Width="400" Header="Process" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
 
