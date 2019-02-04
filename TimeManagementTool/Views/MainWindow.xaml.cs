@@ -106,7 +106,7 @@ namespace TimeManagementTool
             List<Category> selectedCategories = CategoryList.SelectedItems.OfType<Category>().ToList();
 
             var processName = selectedProcesses[0].ProcessName;
-            processController.AddProcessToCategory(selectedCategories[0].Id, selectedProcesses[0].Id, selectedProcesses[0].ProcessName);
+            processController.AddProcessToCategory(selectedCategories[0].Id, selectedProcesses[0].ProcessName);
         }
 
         //if add category is clicked this event is triggered
@@ -115,6 +115,14 @@ namespace TimeManagementTool
         {
             string title = txt_category_title.Text;
             categoryController.AddCategory(title);
+        }
+
+        //if the start recording button is clicked
+
+        private void StartRecording_click(object sender, RoutedEventArgs e)
+        {
+            //string ProcessName = "notepad++";
+            processController.WatchProcesses();
         }
     }
 }

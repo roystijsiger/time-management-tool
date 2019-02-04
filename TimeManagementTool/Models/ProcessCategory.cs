@@ -1,14 +1,15 @@
-﻿namespace TimeManagementTool.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TimeManagementTool.Models
 {
     public class ProcessCategory
     {
-        public int Id { get; set; }
+        [Key]
         public string Name { get; set; }
         public Category Category { get; set; }
 
-        public ProcessCategory(int id, string name, Category category)
+        public ProcessCategory(string name, Category category)
         {
-            Id = id;
             Name = name;
             Category = category;
         }
