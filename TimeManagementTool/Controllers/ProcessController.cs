@@ -10,14 +10,12 @@ using System.Management;
 
 namespace TimeManagementTool.Controllers
 {
-    class ProcessController
+    public class ProcessController
     {
         public Process[] RunningProcesses { get; set; }
         private List<ProcessCategory> _watchedProcesses;
         private MainWindow _view;
         private TimeManagementContext _context;
-        private ManagementEventWatcher processStartEvent = new ManagementEventWatcher("SELECT * FROM Win32_ProcessStartTrace");
-        private ManagementEventWatcher processStopEvent = new ManagementEventWatcher("SELECT * FROM Win32_ProcessStopTrace");
 
         public ProcessController(MainWindow view)
         {
@@ -30,15 +28,23 @@ namespace TimeManagementTool.Controllers
         {
             _view.ShowProcesses(RunningProcesses);
         }
-        
+
         public void WatchProcesses()
         {
-            _watchedProcesses = _context.Processes.ToList();
+            List<ProcessCategory> processCategories = _context.Processes.ToList();
+            foreach(ProcessCategory pc in processCategories)
+            {
+                //check if the process is running
+                if(Process.GetProcessesByName(pc.Name).Length > 0)
+                {
+                    var process = Process.GetProcessesByName(pc.Name)[0];
+                    var handle = process.SafeHandle;
+                    process.EnableRaisingEvents = true;
+                    process.Exited += new EventHandler(OnExit_event);
+                }
+                
 
-            processStartEvent.EventArrived += new EventArrivedEventHandler(processStartEvent_EventArrived);
-            processStartEvent.Start();
-            processStopEvent.EventArrived += new EventArrivedEventHandler(processStopEvent_EventArrived);
-            processStopEvent.Start();
+            }
         }
 
         /*public void WatchProcess(string ProcessName)
@@ -70,18 +76,12 @@ namespace TimeManagementTool.Controllers
                 _view.AddSingleProcessToProcessByCategoryList(processCategory);
         }
 
-        private void processStartEvent_EventArrived(object sender, EventArrivedEventArgs e)
+        private void OnExit_event(object sender, EventArgs e)
         {
-            //e.NewEvent.Properties["ProcessName"];
-            //_watchedProcesses.Contains()
-            Console.WriteLine("Process started");
-            return;
 
-        }
+            Process p = (Process)sender;
+            TimeSpan userProcessorTime = p.UserProcessorTime;
 
-        private void processStopEvent_EventArrived(object sender, EventArrivedEventArgs e)
-        {
-            Console.WriteLine("Proces gestops");
             return;
         }
     }
