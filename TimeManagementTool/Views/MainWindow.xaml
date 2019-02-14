@@ -44,6 +44,5 @@
             </ListView.View>
 
         </ListView>
-        <Button Content="Start recording process" Grid.Column="1" HorizontalAlignment="Left" Height="54" Margin="138,973,0,-69" VerticalAlignment="Top" Width="305" Click="StartRecording_click"/>
     </Grid>
 </Window>

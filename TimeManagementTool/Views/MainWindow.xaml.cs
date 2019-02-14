@@ -116,13 +116,5 @@ namespace TimeManagementTool
             string title = txt_category_title.Text;
             categoryController.AddCategory(title);
         }
-
-        //if the start recording button is clicked
-
-        private void StartRecording_click(object sender, RoutedEventArgs e)
-        {
-            //string ProcessName = "notepad++";
-            processController.WatchProcesses();
-        }
     }
 }
